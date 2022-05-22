@@ -1,11 +1,15 @@
 import React, { createContext, useEffect, useState } from 'react';
 
-const Currency = createContext();
+const CurrencyContext = createContext();
 
 export const CurrencyProvider = ({children}) => {
 
     const [ currency, setCurrency] = useState("USD")
     const [ symbol, setSymbol] = useState("$")
+
+    const addCurrency = (currencyProps) => {
+        setCurrency(currencyProps)
+    }
 
     useEffect(() => {
         if(currency === 'USD'){
@@ -14,10 +18,14 @@ export const CurrencyProvider = ({children}) => {
         if(currency === 'EUR'){
             setSymbol('e')
         }
-    })
+        if(currency === 'rub'){
+            setSymbol('rub')
+        }
+    }, [currency])
 
     return (
-        <Currency.Provider>{children}</Currency.Provider>
+        <CurrencyContext.Provider value={{currency, symbol, addCurrency}}>{children}</CurrencyContext.Provider>
     )
 }
 
+export default CurrencyContext;
