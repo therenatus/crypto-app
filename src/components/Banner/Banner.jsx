@@ -1,6 +1,8 @@
-import { Box, styled, Typography, Stack } from '@mui/material'
-import React from 'react'
-import img from '../../assets/images/banner.jpg'
+import React from 'react';
+import { Box, styled, Typography, Stack } from '@mui/material';
+
+import { Carousel } from './Carousel';
+import img from '../../assets/images/banner.jpg';
 
 
 const StyledBanner = styled(Box)(({theme}) => ({
@@ -31,16 +33,22 @@ export const Banner = () => {
     return (
         <StyledBanner>
             <Stack  direction="column"
-            justifyContent="space-around"
-            alignItems="center"
-            spacing={2}
-            height="100%" >
+                justifyContent="space-around"
+                alignItems="center"
+                spacing={2}
+                height="100%" 
+                >
+
                 <MainText variant='h2'>
                     Crypto App
                 </MainText>
-                <SubTitle variant='subtittle2'>
+                <SubTitle variant='subtitle2'>
                     Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quos distinctio laborum ea totam reiciendis, quidem iure enim dolorum vitae! Consectetur nobis voluptates iusto, fuga ullam sunt amet necessitatibus maxime soluta.
                 </SubTitle>
+                <Carousel>
+                    
+                </Carousel>
+
             </Stack>
         </StyledBanner>
     )

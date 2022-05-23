@@ -16,10 +16,10 @@ export const CurrencyProvider = ({children}) => {
             setSymbol('$')
         }
         if(currency === 'EUR'){
-            setSymbol('e')
+            setSymbol('€')
         }
-        if(currency === 'rub'){
-            setSymbol('rub')
+        if(currency === 'RUB'){
+            setSymbol('₽')
         }
     }, [currency])
 

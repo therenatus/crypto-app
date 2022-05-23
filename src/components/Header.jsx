@@ -1,6 +1,7 @@
 import React, {useContext} from 'react';
-import { AppBar, Container, MenuItem, Select, Toolbar, Typography, styled, createTheme, ThemeProvider } from '@mui/material';
+import { AppBar, Container, MenuItem, Select, Toolbar, Typography, styled, ThemeProvider } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+
 import CurrencyContext from '../CurrencyContext';
 
 const currencies = [
@@ -17,16 +18,6 @@ const StyledTypography = styled(Typography)(({theme}) => ({
 export const Header = () => {
 
     const { currency, addCurrency} = useContext(CurrencyContext)
-
-    const darkTheme = createTheme({
-		palette: {
-			mode: 'dark',
-			primary: {
-				main: '#fff'
-			}
-		},
-		type: 'dark'
-	})
     const navigate = useNavigate();
 
     // const [currency, setCurrency] = useState('USD');
@@ -36,7 +27,6 @@ export const Header = () => {
         addCurrency(e.target.value);
     }
     return (
-        <ThemeProvider theme={darkTheme}>
 
             <AppBar position='sticky'>
                 <Toolbar>
@@ -70,6 +60,5 @@ export const Header = () => {
                     </Container>
                 </Toolbar>
             </AppBar>
-        </ThemeProvider>
     )
 }
