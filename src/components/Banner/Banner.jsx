@@ -9,7 +9,7 @@ const StyledBanner = styled(Box)(({theme}) => ({
     backgroundImage: `url(${img})`,
     backgroundPosition: 'center',
     backgroundSize: 'cover',
-    width: '100vw',
+    width: 'calc(100vw - 17px)',
     height: '70vh',
     margin: 0,
     padding: 0
@@ -28,8 +28,6 @@ const SubTitle = styled(Typography)(({theme}) => ({
     textAlign: 'center'
 }))
 export const Banner = () => {
-
-
     return (
         <StyledBanner>
             <Stack  direction="column"

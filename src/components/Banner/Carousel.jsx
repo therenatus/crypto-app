@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Container, Stack, styled, Typography, Box } from '@mui/material';
+import { Container, styled, Typography, Box } from '@mui/material';
 import axios from 'axios';
-import { css } from '@emotion/react'
 
 import { TrendingCoins } from '../../config/api'
 import CurrencyContext from '../../CurrencyContext';

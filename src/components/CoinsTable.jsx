@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { Container, TextField, ThemeProvider, Typography, Box, styled, TableContainer, TableHead, Table, TableRow, TableCell, LinearProgress, TableBody } from '@mui/material';
+import { Container, TextField, Typography, styled, TableContainer, TableHead, Table, TableRow, TableCell, LinearProgress, TableBody } from '@mui/material';
 import axios from 'axios';
 
 import { CoinList } from '../config/api';
@@ -28,10 +28,10 @@ export const CoinsTable = () => {
     };
 
     const handleSearch = () => {
-        return coinsList.filter((coin) => {
-            coin.name.toLowerCase().include(search) ||
+        return coinsList.filter((coin) => 
+            coin.name.toLowerCase().includes(search) ||
             coin.symbol.toLowerCase().includes(search)
-        })
+        )
     }
 
     useEffect(() => {
@@ -39,60 +39,66 @@ export const CoinsTable = () => {
     }, [currency])
 
     return (
-            <Container >
-                <Typography variant="h4" color="white" sx={{textAlign: 'center', mt: '30px', mb: '30px'}}>
-                    Cryptocurrency Prices by Market Cap
-                </Typography>
+        <Container >
+            <Typography variant="h4" color="white" sx={{textAlign: 'center', mt: '30px', mb: '30px'}}>
+                Cryptocurrency Prices by Market Cap
+            </Typography>
 
-                <Input
-                    label='Search for a Crypto Currency...'
-                    onChange={(e) => setSearch(e.target.value)}>
-                </Input>
+            <Input
+                label='Search for a Crypto Currency...'
+                onChange={(e) => setSearch(e.target.value)}>
+            </Input>
 
-                <TableContainer sx={{width: "100%", mt: '20px'}}>
-                        {isLoading ? <LinearProgress style={{ backgroundColor: "gold" }}/> : (
-                            <Table>
-                                <TableHead sx={{backgroundColor: '#EEBC1D'}}>
-                                    <TableRow>
-                                        {['Coin', 'Price', '24h Change', 'Market Cap'].map((item) => {
-                                            return (
-                                                <TableCell
-                                                    align={item === 'Coin' ? '' : 'right'}
-                                                    key={item}
-                                                    sx={{
-                                                        color: 'black',
-                                                        fontWeight: 'bold'
-                                                    }}>
-                                                    {item}
-                                                </TableCell>
-                                            )
-                                        })}
+            <TableContainer sx={{width: "100%", mt: '20px'}}>
+                {isLoading ? <LinearProgress style={{ backgroundColor: "gold" }}/> : (
+                    <Table>
+                        <TableHead sx={{backgroundColor: '#EEBC1D'}}>
+                            <TableRow>
+                                {['Coin', 'Price', '24h Change', 'Market Cap'].map((item) => {
+                                    return (
+                                        <TableCell
+                                            align={item === 'Coin' ? 'left' : 'right'}
+                                            key={item}
+                                            sx={{
+                                                color: 'black',
+                                                fontWeight: 'bold'
+                                            }}>
+                                            {item}
+                                        </TableCell>
+                                    )
+                                })}
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {handleSearch().map((coin, index) => {
+                                let profit = coin.price_change_percentage_24h >= 0;
+                                return (
+                                    <TableRow key={`${coin}__${index}`}>
+                                        <TableCell
+                                        align='left'
+                                        >
+                                            {coin.name}
+                                        </TableCell>
+                                        <TableCell
+                                        align='right'>
+                                            {coin.name}
+                                        </TableCell>
+                                        <TableCell
+                                        align='right'>
+                                            {coin.name}
+                                        </TableCell>
+                                        <TableCell
+                                        align='right'>
+                                            {coin.name}
+                                        </TableCell>
+                                        
                                     </TableRow>
-                                </TableHead>
-                                <TableBody>
-                                    {handleSearch().map((coin) => {
-                                        let profit = coin.price_change_percentage_24h >= 0;
-                                        return (
-                                            <TableRow>
-                                                <TableCell>
-                                                    {coin.name}
-                                                </TableCell>
-                                                <TableCell>
-                                                    {coin.name}
-                                                </TableCell>
-                                                <TableCell>
-                                                    {coin.name}
-                                                </TableCell>
-                                                <TableCell>
-                                                    {coin.name}
-                                                </TableCell>
-                                            </TableRow>
-                                        )
-                                    })}
-                                </TableBody>
-                            </Table>
-                        )}
-                </TableContainer>
-            </Container>
+                                )
+                            })}
+                        </TableBody>
+                    </Table>
+                )}
+            </TableContainer>
+        </Container>
     )
 }

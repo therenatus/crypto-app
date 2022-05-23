@@ -1,5 +1,5 @@
 import React, {useContext} from 'react';
-import { AppBar, Container, MenuItem, Select, Toolbar, Typography, styled, ThemeProvider } from '@mui/material';
+import { AppBar, Container, MenuItem, Select, Toolbar, Typography, styled } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
 import CurrencyContext from '../CurrencyContext';
