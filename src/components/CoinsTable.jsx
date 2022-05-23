@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { Container, TextField, Typography, styled, TableContainer, TableHead, Table, TableRow, TableCell, LinearProgress, TableBody } from '@mui/material';
+import { Container, TextField, Typography, Box, styled, TableContainer, TableHead, Table, TableRow, TableCell, LinearProgress, TableBody } from '@mui/material';
 import axios from 'axios';
 
 import { CoinList } from '../config/api';
@@ -18,7 +18,7 @@ export const CoinsTable = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [search, setSearch] = useState('')
 
-    const { currency } = useContext(CurrencyContext);
+    const { currency, symbol } = useContext(CurrencyContext);
 
     const fetchCoinList = async() => {
         setIsLoading(true);
@@ -34,6 +34,7 @@ export const CoinsTable = () => {
         )
     }
 
+    console.log(coinsList)
     useEffect(() => {
         fetchCoinList();
     }, [currency])
@@ -77,15 +78,19 @@ export const CoinsTable = () => {
                                         <TableCell
                                         align='left'
                                         >
-                                            {coin.name}
+                                            <Box sx={{display: 'flex', alignItems: 'center', width: '50px'}}>
+                                                <img src={coin?.image} alt={coin.name} height='40px'/>
+                                                <Typography>{coin.symbol}</Typography>
+                                            </Box>
                                         </TableCell>
                                         <TableCell
                                         align='right'>
-                                            {coin.name}
+                                            {`${symbol} ${coin.current_price}`}
                                         </TableCell>
                                         <TableCell
-                                        align='right'>
-                                            {coin.name}
+                                        align='right'
+                                        style={{ color: profit ? 'rgb(14, 203, 129)' : 'red'}}>
+                                            {profit && '+'} {coin.price_change_percentage_24h.toFixed(2)}% 
                                         </TableCell>
                                         <TableCell
                                         align='right'>
