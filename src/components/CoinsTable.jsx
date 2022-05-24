@@ -1,9 +1,10 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { Container, TextField, Typography, Box, styled, TableContainer, TableHead, Table, TableRow, TableCell, LinearProgress, TableBody } from '@mui/material';
+import { Container, TextField, Typography, Box, styled, TableContainer, TableHead, Table, TableRow, TableCell, LinearProgress, TableBody, Pagination } from '@mui/material';
 import axios from 'axios';
 
 import { CoinList } from '../config/api';
 import CurrencyContext from '../CurrencyContext';
+import { Link } from 'react-router-dom';
 
 const Input = styled(TextField)(({theme}) => ({
     width: '100%',
@@ -12,29 +13,46 @@ const Input = styled(TextField)(({theme}) => ({
     mb: '20px',
 }))
 
-export const CoinsTable = () => {
+const StyledPagination = styled(Pagination)(({theme}) => ({
+    color: 'gold',
+    padding: 20,
+    width: "100%",
+    display: "flex",
+    justifyContent: "center",
+    "& .MuiPaginationItem-root": {
+        color: "gold",
+      },
 
+}))
+
+
+export const CoinsTable = () => {
+    
     const [coinsList, setCoinsList] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [search, setSearch] = useState('')
-
+    const [page, setPage] = useState(1)
+    
     const { currency, symbol } = useContext(CurrencyContext);
-
+    
     const fetchCoinList = async() => {
         setIsLoading(true);
         const { data } = await axios.get(CoinList(currency));
         setIsLoading(false);
         setCoinsList(data)
     };
-
+    
     const handleSearch = () => {
         return coinsList.filter((coin) => 
-            coin.name.toLowerCase().includes(search) ||
-            coin.symbol.toLowerCase().includes(search)
+        coin.name.toLowerCase().includes(search) ||
+        coin.symbol.toLowerCase().includes(search)
         )
     }
-
-    console.log(coinsList)
+    
+    const numberWithCommas = (x) => {
+        return x?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
+    
     useEffect(() => {
         fetchCoinList();
     }, [currency])
@@ -71,21 +89,29 @@ export const CoinsTable = () => {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {handleSearch().map((coin, index) => {
+                            {handleSearch()
+                            .slice((page -1)*10, (page-1)*10 +10)
+                            .map((coin, index) => {
                                 let profit = coin.price_change_percentage_24h >= 0;
                                 return (
                                     <TableRow key={`${coin}__${index}`}>
                                         <TableCell
                                         align='left'
+                                        sx={{display: 'flex', alignItems: 'center'}}
                                         >
-                                            <Box sx={{display: 'flex', alignItems: 'center', width: '50px'}}>
-                                                <img src={coin?.image} alt={coin.name} height='40px'/>
-                                                <Typography>{coin.symbol}</Typography>
-                                            </Box>
+                                            <Link  key={`${coin}__${index}`} to={`/coin/${coin.name}`}>
+                                                <Box sx={{display: 'flex', alignItems: 'center', color: 'white'}}>
+                                                    <img src={coin?.image} alt={coin.name} height='50px'/>
+                                                    <Box sx={{ml: '20px'}}>
+                                                        <Typography variant='h6'>{coin.symbol.toUpperCase()}</Typography>
+                                                        <Typography elements='p' sx={{color: 'grey'}}>{coin.name}</Typography>
+                                                    </Box>
+                                                </Box>
+                                            </Link>
                                         </TableCell>
                                         <TableCell
                                         align='right'>
-                                            {`${symbol} ${coin.current_price}`}
+                                            {`${symbol} ${numberWithCommas(coin.current_price)}`}
                                         </TableCell>
                                         <TableCell
                                         align='right'
@@ -94,7 +120,7 @@ export const CoinsTable = () => {
                                         </TableCell>
                                         <TableCell
                                         align='right'>
-                                            {coin.name}
+                                            {numberWithCommas(coin.market_cap.toString().slice(0, -6))}M
                                         </TableCell>
                                         
                                     </TableRow>
@@ -102,8 +128,15 @@ export const CoinsTable = () => {
                             })}
                         </TableBody>
                     </Table>
+                    
                 )}
             </TableContainer>
+            <StyledPagination 
+                count={(handleSearch()?.length / 10).toFixed(0)} 
+                onChange={(_, index) =>{
+                    setPage(index);
+                    window.scroll(0, 450);
+                }} />
         </Container>
     )
 }
