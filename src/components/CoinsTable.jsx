@@ -5,6 +5,7 @@ import axios from 'axios';
 import { CoinList } from '../config/api';
 import CurrencyContext from '../CurrencyContext';
 import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const Input = styled(TextField)(({theme}) => ({
     width: '100%',
@@ -31,7 +32,8 @@ export const CoinsTable = () => {
     const [coinsList, setCoinsList] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [search, setSearch] = useState('')
-    const [page, setPage] = useState(1)
+    const [page, setPage] = useState(1);
+    const navigate = useNavigate();
     
     const { currency, symbol } = useContext(CurrencyContext);
     
@@ -48,6 +50,7 @@ export const CoinsTable = () => {
         coin.symbol.toLowerCase().includes(search)
         )
     }
+
     
     const numberWithCommas = (x) => {
         return x?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -97,9 +100,10 @@ export const CoinsTable = () => {
                                     <TableRow key={`${coin}__${index}`}>
                                         <TableCell
                                         align='left'
-                                        sx={{display: 'flex', alignItems: 'center'}}
+                                        onClick={navigate(`/coin/${coin.id}`)}
+                                        
                                         >
-                                            <Link  key={`${coin}__${index}`} to={`/coin/${coin.name}`}>
+                                            <Link  key={`${coin}__${index}`} to={`/coin/${coin.id}`}>
                                                 <Box sx={{display: 'flex', alignItems: 'center', color: 'white'}}>
                                                     <img src={coin?.image} alt={coin.name} height='50px'/>
                                                     <Box sx={{ml: '20px'}}>
@@ -127,12 +131,11 @@ export const CoinsTable = () => {
                                 )
                             })}
                         </TableBody>
-                    </Table>
-                    
+                    </Table> 
                 )}
             </TableContainer>
             <StyledPagination 
-                count={(handleSearch()?.length / 10).toFixed(0)} 
+                count={Number((coinsList.length / 10).toFixed(0))} 
                 onChange={(_, index) =>{
                     setPage(index);
                     window.scroll(0, 450);

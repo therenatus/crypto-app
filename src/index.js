@@ -7,6 +7,7 @@ import { CurrencyProvider } from './CurrencyContext';
 import 'react-alice-carousel/lib/alice-carousel.css';
 import { createTheme, ThemeProvider } from '@mui/material';
 
+
 const darkTheme = createTheme({
   palette: {
     mode: 'dark',
