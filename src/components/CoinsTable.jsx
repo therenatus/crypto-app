@@ -26,7 +26,6 @@ const StyledPagination = styled(Pagination)(({theme}) => ({
 
 }))
 
-
 export const CoinsTable = () => {
     
     const [coinsList, setCoinsList] = useState([]);
@@ -51,7 +50,6 @@ export const CoinsTable = () => {
         )
     }
 
-    
     const numberWithCommas = (x) => {
         return x?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     }
@@ -100,8 +98,6 @@ export const CoinsTable = () => {
                                     <TableRow key={`${coin}__${index}`}>
                                         <TableCell
                                         align='left'
-                                        onClick={navigate(`/coin/${coin.id}`)}
-                                        
                                         >
                                             <Link  key={`${coin}__${index}`} to={`/coin/${coin.id}`}>
                                                 <Box sx={{display: 'flex', alignItems: 'center', color: 'white'}}>

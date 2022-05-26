@@ -4,8 +4,8 @@ const CurrencyContext = createContext();
 
 export const CurrencyProvider = ({children}) => {
 
-    const [ currency, setCurrency] = useState("USD")
-    const [ symbol, setSymbol] = useState("$")
+    const [ currency, setCurrency ] = useState("USD")
+    const [ symbol, setSymbol ] = useState("$")
 
     const addCurrency = (currencyProps) => {
         setCurrency(currencyProps)
